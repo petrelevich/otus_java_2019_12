@@ -8,7 +8,7 @@
     <parent>
         <groupId>ru.otus</groupId>
         <artifactId>OtusJavaHW</artifactId>
-        <version>2019-12-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
 
@@ -37,7 +37,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.l011.Main</mainClass>
+                            <mainClass>ru.otus.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
