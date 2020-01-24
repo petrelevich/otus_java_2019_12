@@ -24,6 +24,7 @@
         <module>L01-maven</module>
         <module>L02-shade</module>
         <module>L03-generic-collections</module>
+        <module>L06-gc</module>
     </modules>
 
     <properties>
