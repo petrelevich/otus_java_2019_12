@@ -2,110 +2,232 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <!-- Project Object Model -->
-    <!-- All POMs extend the Super POM unless explicitly set -->
-    <!--parent>*</parent-->
+  <!-- Project Object Model -->
+  <!-- All POMs extend the Super POM unless explicitly set -->
+  <!--parent>*</parent-->
 
-    <groupId>ru.otus</groupId>
-    <artifactId>OtusJavaHW</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <groupId>ru.otus</groupId>
+  <artifactId>OtusJavaHW</artifactId>
+  <version>${revision}</version>
 
-    <description>Code examples</description>
+  <description>Code examples</description>
 
-    <developers>
-        <developer>
-            <name>sergey</name>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <name>sergey</name>
+    </developer>
+    <developer>
+      <name>Vyacheslav Lapin</name>
+    </developer>
+  </developers>
 
-    <modules>
-        <module>L01-maven</module>
-        <module>L02-shade</module>
-        <module>L03-generic-collections</module>
-        <module>L06-gc</module>
-    </modules>
+  <modules>
+    <module>L01-maven</module>
+    <module>L02-shade</module>
+    <module>L03-generics-collections</module>
+    <module>L06-gc</module>
+    <module>L09-annotations</module>
+  </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-        <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
-        <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
-        <minimal.maven.version>3.3.9</minimal.maven.version>
-        <com.google.guava.version>28.2-jre</com.google.guava.version>
-        <spring-framework-bom.version>5.2.2.RELEASE</spring-framework-bom.version>
-        <commons-io.version>2.6</commons-io.version>
-    </properties>
+  <properties>
 
-    <dependencyManagement>
-        <dependencies>
+    <!--region General-->
+    <java.version>13</java.version>
+    <minimal.maven.version>3.6.1</minimal.maven.version>
+    <revision>0.0.1-SNAPSHOT</revision>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!--endregion-->
 
+    <!--region BOMs -->
+    <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
+    <!--endregion-->
+
+    <!--region Libs -->
+    <com.google.guava.version>28.2-jre</com.google.guava.version>
+    <spring-framework-bom.version>5.2.2.RELEASE</spring-framework-bom.version>
+    <commons-io.version>2.6</commons-io.version>
+    <vavr.version>1.0.0-alpha-3</vavr.version>
+
+    <checker.version>3.1.0</checker.version>
+    <annotations.version>18.0.0</annotations.version>
+    <jcip-annotations.version>1.0</jcip-annotations.version>
+    <spotbugs.version>4.0.0-beta4</spotbugs.version>
+    <error_prone_annotations.version>2.3.4</error_prone_annotations.version>
+    <!--endregion-->
+
+    <!--region Plugins-->
+    <maven.compiler.release>${java.version}</maven.compiler.release>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+
+    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+    <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+    <maven-assembly-plugin.version>3.2.0</maven-assembly-plugin.version>
+
+    <lombok-maven-plugin.version>1.18.10.0</lombok-maven-plugin.version>
+    <lombok.verbose>true</lombok.verbose>
+    <lombok.addOutputDirectory>false</lombok.addOutputDirectory>
+    <lombok.sourceDirectory>${project.basedir}/src/main/java</lombok.sourceDirectory>
+    <lombok.testSourceDirectory>${project.basedir}/src/test/java</lombok.testSourceDirectory>
+    <!--endregion-->
+
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${com.google.guava.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons-io.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.vavr</groupId>
+        <artifactId>vavr</artifactId>
+        <version>${vavr.version}</version>
+      </dependency>
+      <!--region Common Annotations (CheckerFramework, JetBrains, SpotBugs, ErrorProne) -->
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker</artifactId>
+        <version>${checker.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>${annotations.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>net.jcip</groupId>
+        <artifactId>jcip-annotations</artifactId>
+        <version>${jcip-annotations.version}</version>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-annotations</artifactId>
+        <version>${spotbugs.version}</version>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+        <version>${error_prone_annotations.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <!--endregion-->
+
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+      <!--region Test dependencies - JUnit Jupiter, AssertJ, Hamcrest, Mockito -->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+      </dependency>
+      <!--endregion-->
+
+  </dependencies>
+
+  <packaging>pom</packaging>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>${minimal.maven.version}</version>
+                  </requireMavenVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven-shade-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${maven-assembly-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>${lombok-maven-plugin.version}</version>
+          <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.2.2.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
             </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>delombok</id>
+              <!-- <phase>generate-sources</phase> -->
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-delombok</id>
+              <!-- <phase>generate-test-sources</phase> -->
+              <goals>
+                <goal>testDelombok</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${com.google.guava.version}</version>
-            </dependency>
+      </plugins>
+    </pluginManagement>
 
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <packaging>pom</packaging>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-
-                <plugin>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${maven-enforcer-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>enforce-maven</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                            <configuration>
-                                <rules>
-                                    <dependencyConvergence/>
-                                    <requireMavenVersion>
-                                        <version>${minimal.maven.version}</version>
-                                    </requireMavenVersion>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven-shade-plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven-assembly-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-
+  </build>
 
 </project>
