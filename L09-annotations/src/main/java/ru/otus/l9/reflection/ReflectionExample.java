@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 
 public class ReflectionExample {
 
-//  @NonFinal
+  //  @NonFinal
   private final int x;
 
   public ReflectionExample(int x) {
@@ -18,7 +18,7 @@ public class ReflectionExample {
   }
 
   public void setX(int x) throws NoSuchFieldException, IllegalAccessException {
-//    this.x = x;
+    //    this.x = x;
     Field field = ReflectionExample.class.getDeclaredField("x");
     field.setAccessible(true);
     field.set(this, x);

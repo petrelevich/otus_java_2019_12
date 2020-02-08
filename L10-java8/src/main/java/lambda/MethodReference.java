@@ -14,7 +14,7 @@ public class MethodReference {
     IntSupplier intSupplier = () -> 56 + x;
 
     System.out.println(intSupplier.getAsInt());
-//    x = 5;
+    //    x = 5;
   }
 
   public interface Finder {

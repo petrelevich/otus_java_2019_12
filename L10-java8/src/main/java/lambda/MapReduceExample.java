@@ -1,7 +1,6 @@
 package lambda;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -18,14 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public class MapReduceExample {
 
   int x;
-
-  @SneakyThrows
-  public final @NotNull String m(MapReduceExample this) {
-    System.out.println(this.x);
-    return "";
-  }
-
-
 
   static Double mySqrt(Integer val) {
     return Math.sqrt(val);
@@ -70,6 +61,12 @@ public class MapReduceExample {
 
     Function<String, Integer> function = String::hashCode;
 
+  }
+
+  @SneakyThrows
+  public final @NotNull String m(MapReduceExample this) {
+    System.out.println(this.x);
+    return "";
   }
 
   // Integer -> Double

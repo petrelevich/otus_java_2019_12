@@ -75,7 +75,6 @@ class StreamsTest {
                 "}");
   }
 
-  @SneakyThrows
   @Test
   @DisplayName("lorem")
   void loremTest() {

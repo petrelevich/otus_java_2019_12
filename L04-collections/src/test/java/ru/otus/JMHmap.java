@@ -5,7 +5,6 @@ import static org.openjdk.jmh.annotations.Mode.SingleShotTime;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -25,45 +24,45 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @BenchmarkMode(SingleShotTime)
 @OutputTimeUnit(MILLISECONDS)
 public class JMHmap {
-    private int mapSize = 200_000;
-    private String keyStr = "k";
-    private MyMapInt myMap;
-    private Map<String, Integer> hashMap;
+  private int mapSize = 200_000;
+  private String keyStr = "k";
+  private MyMapInt myMap;
+  private Map<String, Integer> hashMap;
 
-    public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder().include(JMHmap.class.getSimpleName()).forks(1).build();
-        new Runner(opt).run();
+  public static void main(String[] args) throws RunnerException {
+    Options opt = new OptionsBuilder().include(JMHmap.class.getSimpleName()).forks(1).build();
+    new Runner(opt).run();
+  }
+
+  @Setup
+  public void setup() {
+    myMap = new MyMapInt(mapSize * 2);
+    hashMap = new HashMap<>(mapSize);
+  }
+
+  @Benchmark
+  public long myMapTest() {
+    for (int idx = 0; idx < mapSize; idx++) {
+      myMap.put(keyStr + idx, idx);
     }
 
-    @Setup
-    public void setup() {
-        myMap = new MyMapInt(mapSize * 2);
-        hashMap = new HashMap<>(mapSize);
+    int summ = 0;
+    for (int idx = 0; idx < mapSize; idx++) {
+      summ += myMap.get(keyStr + idx);
+    }
+    return summ;
+  }
+
+  @Benchmark
+  public long hashMapTest() {
+    for (int idx = 0; idx < mapSize; idx++) {
+      hashMap.put(keyStr + idx, idx);
     }
 
-    @Benchmark
-    public long myMapTest() {
-        for (int idx = 0; idx < mapSize; idx++) {
-            myMap.put(keyStr + idx, idx);
-        }
-
-        int summ = 0;
-        for (int idx = 0; idx < mapSize; idx++) {
-            summ += myMap.get(keyStr + idx);
-        }
-        return summ;
+    int summ = 0;
+    for (int idx = 0; idx < mapSize; idx++) {
+      summ += hashMap.get(keyStr + idx);
     }
-
-    @Benchmark
-    public long hashMapTest() {
-        for (int idx = 0; idx < mapSize; idx++) {
-            hashMap.put(keyStr + idx, idx);
-        }
-
-        int summ = 0;
-        for (int idx = 0; idx < mapSize; idx++) {
-            summ += hashMap.get(keyStr + idx);
-        }
-        return summ;
-    }
+    return summ;
+  }
 }

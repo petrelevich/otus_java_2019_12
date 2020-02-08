@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class StudentExample {
 
-
   public static void main(String... __) {
 
     var alex = Student.builder().name("Alex").avgMark(4.5).build();

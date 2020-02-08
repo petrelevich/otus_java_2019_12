@@ -6,9 +6,9 @@ package ru.otus.aop.instrumentation.proxy;
 */
 public class ProxyDemo {
 
-    public static void main(String[] args) {
-        MyClassImpl myClass = new MyClassImpl();
-        myClass.secureAccess("Security Param");
-    }
+  public static void main(String[] args) {
+    MyClassImpl myClass = new MyClassImpl();
+    myClass.secureAccess("Security Param");
+  }
 
 }

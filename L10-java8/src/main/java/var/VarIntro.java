@@ -41,9 +41,9 @@ public class VarIntro {
     }
 
 
-//    var nameList = new ArrayList<>(); //тоже не понятен тип
-//    nameList.add("kjbdfag");
-//    nameList.add(12342);
+    //    var nameList = new ArrayList<>(); //тоже не понятен тип
+    //    nameList.add("kjbdfag");
+    //    nameList.add(12342);
     var stringList = new ArrayList<String>(); //а тут уже все ясно
 
     //Посмотрите на var в debug

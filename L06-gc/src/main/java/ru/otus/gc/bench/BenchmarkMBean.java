@@ -4,7 +4,7 @@ package ru.otus.gc.bench;
  * Created by tully.
  */
 public interface BenchmarkMBean {
-    int getSize();
+  int getSize();
 
-    void setSize( int size );
+  void setSize(int size);
 }

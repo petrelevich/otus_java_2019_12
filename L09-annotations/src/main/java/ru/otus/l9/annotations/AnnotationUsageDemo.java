@@ -42,9 +42,9 @@ public class AnnotationUsageDemo<T extends @Email String> { //ElementType.TYPE_U
       System.out.println("role: " + role.value());
     }
 
-//    final Package aPackage = PackageLevelClass.class.getPackage();
-//    final PackageOwner packageOwner = aPackage.getDeclaredAnnotation(PackageOwner.class);
-//    System.out.println("package owner: " + packageOwner.value());
+    //    final Package aPackage = PackageLevelClass.class.getPackage();
+    //    final PackageOwner packageOwner = aPackage.getDeclaredAnnotation(PackageOwner.class);
+    //    System.out.println("package owner: " + packageOwner.value());
   }
 
   private static <@Immutable E> E cast(Object object) { //ElementType.TYPE_PARAMETER
