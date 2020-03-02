@@ -13,7 +13,7 @@ import ru.otus.proxy.security.SecurityProxy;
  */
 public class Demo {
   public static void main(String[] args) {
-    //security();
+  //  security();
     lazy();
   }
 
@@ -27,6 +27,9 @@ public class Demo {
     System.out.println(heavyObject);
 
     HeavyObject heavyObjectProxy = new LazyProxy(heavyObject);
+
+    String.valueOf(true).length();
+
     System.out.println(heavyObjectProxy.getValue());
     System.out.println(heavyObject);
     System.out.println(heavyObjectProxy.getValue());

@@ -11,5 +11,8 @@ public class Demo {
 
     Card card2 = new DebitCard(new MastercardPS());
     card2.info();
+
+    Card card3 = new DebitCard(new MirPS());
+    card3.info();
   }
 }
