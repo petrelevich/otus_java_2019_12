@@ -33,6 +33,7 @@ public class DbServiceDemo {
     SessionManagerJdbc sessionManager = new SessionManagerJdbc(dataSource);
     DbExecutor<User> dbExecutor = new DbExecutor<>();
     UserDao userDao = new UserDaoJdbc(sessionManager, dbExecutor);
+
     DBServiceUser dbServiceUser = new DbServiceUserImpl(userDao);
     long id = dbServiceUser.saveUser(new User(0, "dbServiceUser"));
     Optional<User> user = dbServiceUser.getUser(id);

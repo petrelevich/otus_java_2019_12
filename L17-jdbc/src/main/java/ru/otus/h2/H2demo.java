@@ -50,7 +50,7 @@ public class H2demo {
         logger.info("inserted rowCount: {}", rowCount);
       } catch (SQLException ex) {
         this.connection.rollback(savePoint);
-        System.out.println(ex.getMessage());
+        logger.error(ex.getMessage(), ex);
       }
     }
   }
