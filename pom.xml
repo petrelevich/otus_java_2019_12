@@ -42,6 +42,7 @@
     <module>L13-structuralPatterns</module>
     <module>L14-creationalPatterns</module>
     <module>L16-nio-logging</module>
+    <module>L18-myBatis</module>
   </modules>
 
   <properties>
