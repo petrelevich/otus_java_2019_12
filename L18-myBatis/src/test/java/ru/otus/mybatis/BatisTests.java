@@ -1,24 +1,26 @@
+package ru.otus.mybatis;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.otus.mybatis.BatisStarter;
-
 import ru.otus.mybatis.dao.AddressDao;
 import ru.otus.mybatis.dao.PersonDao;
 import ru.otus.mybatis.dao.SampleMapperInterface;
 import ru.otus.mybatis.model.Address;
 import ru.otus.mybatis.model.Person;
 import ru.otus.mybatis.model.Sample;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.*;
 
 /*
  *
@@ -32,6 +34,7 @@ import java.util.*;
 
 public class BatisTests {
   private static SqlSessionFactory sqlSessionFactory;
+  private static boolean isDBInited;
 
   @BeforeAll
   public static void beforeAll() throws IOException {
@@ -45,10 +48,13 @@ public class BatisTests {
   }
 
   @BeforeEach
-  void beforEach() throws IOException, SQLException {
-    BatisStarter demo = new BatisStarter();
-    demo.createTables();
-    demo.insertRecords();
+  void beforEach() throws SQLException {
+    if (!isDBInited) {
+      isDBInited = true;
+      BatisStarter demo = new BatisStarter();
+      demo.createTables();
+      demo.insertRecords();
+    }
   }
 
   @Test

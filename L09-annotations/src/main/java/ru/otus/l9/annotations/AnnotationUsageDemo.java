@@ -9,8 +9,9 @@ import java.util.List;
  * Created by tully.
  * <p>
  * https://dzone.com/articles/java-8-type-annotations
+ * @deprecated just for demo :)
  */
-@SuppressWarnings({"ResultOfMethodCallIgnored", "UnusedReturnValue"})
+@SuppressWarnings("UnusedReturnValue")
 @Deprecated(since = "2018-06")                                       //ElementType.TYPE @Default
 @Unfinished(
     priority = Unfinished.Priority.LOW,

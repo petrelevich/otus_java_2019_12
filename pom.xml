@@ -41,7 +41,9 @@
     <module>L12-behavioralPatterns</module>
     <module>L13-structuralPatterns</module>
     <module>L14-creationalPatterns</module>
+    <module>L15-io</module>
     <module>L16-nio-logging</module>
+    <module>L17-jdbc</module>
     <module>L18-myBatis</module>
   </modules>
 
@@ -56,8 +58,7 @@
     <!--endregion-->
 
     <!--region BOMs -->
-    <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
-    <!--<spring-framework-bom.version>5.2.2.RELEASE</spring-framework-bom.version>-->
+    <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
     <!--endregion-->
 
     <!--region Libs -->
@@ -68,11 +69,13 @@
     <jmh-core.version>1.23</jmh-core.version>
     <jol-core.version>0.10</jol-core.version>
     <asm.version>7.3.1</asm.version>
+    <javax.json.version>1.1.4</javax.json.version>
+    <protobuf.version>3.11.4</protobuf.version>
 
-    <checker.version>3.1.1</checker.version>
-    <annotations.version>18.0.0</annotations.version>
+    <checker.version>3.2.0</checker.version>
+    <annotations.version>19.0.0</annotations.version>
     <jcip-annotations.version>1.0</jcip-annotations.version>
-    <spotbugs.version>4.0.0-RC3</spotbugs.version>
+    <spotbugs.version>4.0.0</spotbugs.version>
     <error_prone_annotations.version>2.3.4</error_prone_annotations.version>
     <!--endregion-->
 
@@ -82,19 +85,20 @@
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.forceJavacCompilerUse>true</maven.compiler.forceJavacCompilerUse>
 
-    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
     <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
     <maven-assembly-plugin.version>3.2.0</maven-assembly-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
 
-    <lombok-maven-plugin.version>1.18.10.0</lombok-maven-plugin.version>
+    <lombok-maven-plugin.version>1.18.12.0</lombok-maven-plugin.version>
     <lombok.verbose>true</lombok.verbose>
     <lombok.addOutputDirectory>false</lombok.addOutputDirectory>
     <lombok.sourceDirectory>${project.basedir}/src/main/java</lombok.sourceDirectory>
     <lombok.testSourceDirectory>${project.basedir}/src/test/java</lombok.testSourceDirectory>
     <!--endregion-->
 
+    <protoc-jar-maven-plugin.version>3.11.4</protoc-jar-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -135,16 +139,19 @@
         <version>${vavr.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${lombok.version}</version>
-        <scope>provided</scope>
-        <optional>true</optional>
-      </dependency>
-      <dependency>
         <groupId>org.ow2.asm</groupId>
         <artifactId>asm-commons</artifactId>
         <version>${asm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>${javax.json.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java-util</artifactId>
+        <version>${protobuf.version}</version>
       </dependency>
 
       <!--region Common Annotations (CheckerFramework, JetBrains, SpotBugs, ErrorProne) -->
@@ -210,6 +217,8 @@
 
   <build>
 
+    <defaultGoal>verify</defaultGoal>
+
     <pluginManagement>
       <plugins>
 
@@ -262,27 +271,28 @@
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok-maven-plugin</artifactId>
           <version>${lombok-maven-plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </dependency>
-          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>com.github.os72</groupId>
+          <artifactId>protoc-jar-maven-plugin</artifactId>
+          <version>${protoc-jar-maven-plugin.version}</version>
           <executions>
             <execution>
-              <id>delombok</id>
-              <!-- <phase>generate-sources</phase> -->
+              <phase>generate-sources</phase>
               <goals>
-                <goal>delombok</goal>
+                <goal>run</goal>
               </goals>
-            </execution>
-            <execution>
-              <id>test-delombok</id>
-              <!-- <phase>generate-test-sources</phase> -->
-              <goals>
-                <goal>testDelombok</goal>
-              </goals>
+              <configuration>
+                <inputDirectories>
+                  <include>src/main/resources</include>
+                </inputDirectories>
+                <outputTargets>
+                  <outputTarget>
+                    <type>java</type>
+                    <outputDirectory>src/main/java/</outputDirectory>
+                  </outputTarget>
+                </outputTargets>
+              </configuration>
             </execution>
           </executions>
         </plugin>

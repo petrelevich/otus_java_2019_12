@@ -46,7 +46,8 @@ class AnnotationUtilsTest {
   @Test
   @DisplayName("deepAnnotations method works correctly")
   void deepAnnotations() {
-    assertThat(AnnotationUtils.deepAnnotations(Arrays.stream(D.class.getAnnotations()))
+    assertThat(AnnotationUtils.deepAnnotations(Arrays.stream(D.class.getAnnotations()), 1)
+                   .map(annotationAndDeepLevelTuple2 -> annotationAndDeepLevelTuple2._1)
                    .filter(annotation -> annotation.annotationType().equals(A.class)).findFirst())
         .isPresent()
         .containsInstanceOf(A.class);

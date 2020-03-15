@@ -1,6 +1,8 @@
 package ru.otus.l9.annotations.common;
 
 import io.vavr.CheckedFunction1;
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
@@ -45,22 +47,24 @@ public class AnnotationUtils {
   private <T extends Annotation> Optional<T> getDeepAnnotation(@NotNull Class<T> annotationClass,
                                                                @NotNull Annotation... annotations) {
     //noinspection unchecked
-    return (Optional<T>) deepAnnotations(Arrays.stream(annotations))
+    return (Optional<T>) deepAnnotations(Arrays.stream(annotations), 1)
+                             .sorted((o1, o2) -> o2._2 - o1._2)
+                             .map(Tuple2::_1)
                              .filter(annotation -> annotation.annotationType().equals(annotationClass))
                              .findFirst();
   }
 
   @NotNull
   @Contract(pure = true)
-  public Stream<Annotation> deepAnnotations(@NotNull Stream<Annotation> annotations) {
+  public Stream<Tuple2<Annotation, Integer>> deepAnnotations(@NotNull Stream<Annotation> annotations, int deepLevel) {
     return annotations
                .flatMap(annotation -> Stream.concat(
-                   Stream.of(annotation),
+                   Stream.of(Tuple.of(annotation, deepLevel)),
                    deepAnnotations(
                        Stream.of(annotation.annotationType().getAnnotations())
-                           .filter(annotation1 ->
-                                       !annotation1.annotationType().getPackageName().equals("java.lang.annotation")))))
-               .distinct();
+                           .filter(anno ->
+                                       !anno.annotationType().getPackageName().equals("java.lang.annotation")),
+                       deepLevel + 1)));
   }
 
   @Contract(pure = true)
