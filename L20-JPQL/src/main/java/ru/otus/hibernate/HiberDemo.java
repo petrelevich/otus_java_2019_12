@@ -230,7 +230,7 @@ public class HiberDemo {
     try (Session session = sessionFactory.openSession()) {
       session.beginTransaction();
 
-      Person loadedPerson = session.get(Person.class, personId);
+      Person loadedPerson = session.get(Person.class, personId); //загружаем в конекст, тут это важно
       logger.info("loadedPerson:{}", loadedPerson);
 
       Query query = session.createQuery("delete from Person u where u.id = ?1");
