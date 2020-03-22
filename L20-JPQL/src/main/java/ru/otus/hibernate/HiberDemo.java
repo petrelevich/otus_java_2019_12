@@ -255,7 +255,7 @@ public class HiberDemo {
     try (Session session = sessionFactory.openSession()) {
       String name = session.doReturningWork(connection -> {
         try (PreparedStatement ps = connection.prepareStatement("select name from tPerson where id = ?")) {
-          ps.setLong(1, 2L);
+          ps.setLong(1, 1L);
           try (ResultSet rs = ps.executeQuery()) {
             rs.next();
             return rs.getString("name");
