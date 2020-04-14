@@ -45,6 +45,7 @@
     <module>L16-nio-logging</module>
     <module>L17-jdbc</module>
     <module>L18-myBatis</module>
+    <module>L26-thread</module>
   </modules>
 
   <properties>
