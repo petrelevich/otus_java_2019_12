@@ -14,7 +14,7 @@ public class ReadWriteLockDemo {
 
   private int sharedCounter = 0;
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) {
     new ReadWriteLockDemo().go();
   }
 
