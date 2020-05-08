@@ -46,6 +46,7 @@
     <module>L17-jdbc</module>
     <module>L18-myBatis</module>
     <module>L26-thread</module>
+    <module>L31-NIO</module>
   </modules>
 
   <properties>
